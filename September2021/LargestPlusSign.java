@@ -156,3 +156,140 @@ class Solution {
         return ans;
     }
 }
+
+C++ Solution [Using One matrix only]
+
+class Solution {
+public:
+    int orderOfLargestPlusSign(int n, vector<vector<int>>& mines) {
+        int a[n][n],e[n][n];
+        
+        for(int i = 0;i < n;i++)
+        {
+            for(int j = 0;j < n;j++)
+            {
+                a[i][j] = INT_MAX;
+                e[i][j] = 1;
+             }
+        }
+        
+        for(int i = 0;i < mines.size();i++)
+        {
+            int p = mines[i][0];
+            int q = mines[i][1];
+            
+            e[p][q] = 0;
+        }
+        
+        int temp[n];
+        for(int i = 0;i < n;i++)
+        {
+            for(int j = 0;j < n;j++)
+            {
+                if(i == 0)
+                {
+                    a[i][j] = e[i][j];
+                    temp[j] = e[i][j];
+                }
+                else
+                {
+                    if(e[i][j] == 1)
+                    {
+                        a[i][j] = min(a[i][j], 1 + temp[j]);
+                        temp[j]++;
+                    }
+                    else
+                    {
+                        a[i][j] = 0;
+                        temp[j] = 0;
+                    }
+                }
+             }
+        }
+        
+        for(int i = 0;i < n;i++)
+        {
+            for(int j = 0;j < n;j++)
+            {
+                if(j == 0)
+                {
+                    a[i][j] = e[i][j];
+                    temp[i] = e[i][j];
+                }
+                else
+                {
+                    if(e[i][j] == 1)
+                    {
+                        a[i][j] = min(a[i][j], 1 + temp[i]);
+                        temp[i]++;
+                    }
+                    else
+                    {
+                        a[i][j] = 0;
+                        temp[i] = 0;
+                    }
+                }
+            }
+         }
+        
+        for(int i = n-1;i >= 0;i--)
+        {
+            for(int j = 0;j < n;j++)
+            {
+                if(i == n-1)
+                {
+                    a[i][j] = e[i][j];
+                    temp[j] = e[i][j];
+                }
+                else
+                {
+                    if(e[i][j] == 1)
+                    {
+                        a[i][j] = min(a[i][j], 1 + temp[j]);
+                        temp[j]++;
+                    }
+                    else
+                    {
+                        a[i][j] = 0;
+                        temp[j] = 0;
+                    }
+                }
+             }
+        }
+        
+        for(int i = 0;i < n;i++)
+        {
+            for(int j = n-1;j >= 0;j--)
+            {
+                if(j == n-1)
+                {
+                    a[i][j] = e[i][j];
+                    temp[i] = e[i][j];
+                }
+                else
+                {
+                    if(e[i][j] == 1)
+                    {
+                        a[i][j] = min(a[i][j], 1 + temp[i]);
+                        temp[i]++;
+                    }
+                    else
+                    {
+                        a[i][j] = 0;
+                        temp[i] = 0;
+                    }
+                }
+            }
+        }
+        
+        int mx = 0;
+        for(int i = 0;i < n;i++)
+        {
+            for(int j = 0;j < n;j++)
+            {
+                mx = max(mx,a[i][j]);
+            }
+        }
+        return mx;
+    }
+};
